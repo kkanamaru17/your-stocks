@@ -15,8 +15,8 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
 
-# Initialize Migrate
-migrate = Migrate(app, db)
+# # Initialize Migrate
+# migrate = Migrate(app, db)
 
 from routes import *
 
