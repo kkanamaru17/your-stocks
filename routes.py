@@ -20,8 +20,12 @@ def fetch_forwardPE(ticker):
 def fetch_divyiled(ticker):
     stock = yf.Ticker(ticker)
     quote_table = stock.info
-    div_yield = (quote_table.get('dividendYield')) * 100
-    return div_yield
+    div_yield = quote_table.get('dividendYield')
+    # Check if div_yield is None, and return "-" if it is
+    if div_yield is None:
+        return "-"
+    # If div_yield is a valid number, multiply by 100 to get the percentage
+    return div_yield * 100
 
 def calculate_returns(purchase_price, latest_price):
     return ((latest_price - purchase_price) / purchase_price) * 100
@@ -33,37 +37,9 @@ def calculate_portfolio_return(stocks_data):
     return portfolio_return
 
 
-
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
-# @app.route('/')
-# @login_required
-# def home():
-#     return render_template('home.html')
-
-# @app.route('/login', methods=['GET', 'POST'])
-# def login():
-#     if request.method == 'POST':
-#         username = request.form['username']
-#         password = request.form['password']
-#         user = User.query.filter_by(username=username, password=password).first()
-#         if user:
-#             login_user(user)
-#             return redirect(url_for('home'))
-#     return render_template('login.html')
-
-# @app.route('/register', methods=['GET', 'POST'])
-# def register():
-#     if request.method == 'POST':
-#         username = request.form['username']
-#         password = request.form['password']
-#         user = User(username=username, password=password)
-#         db.session.add(user)
-#         db.session.commit()
-#         return redirect(url_for('login'))
-#     return render_template('register.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
